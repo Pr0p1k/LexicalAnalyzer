@@ -9,8 +9,8 @@
 
 Program = {VariablesDeclaration}{wsnl}+{Computations}
 Computations = {OperatorsList}
-OperatorsList = {Operator} | {Operator}{wsnl}+{OperatorsList}
-VariablesList = {Ident} | {Ident}{wsnl}*","{VariablesList}
+OperatorsList = {Operator}+ //| {Operator}{wsnl}+{OperatorsList}
+VariablesList = ({Ident}{wsnl}+)+ //| {Ident}{wsnl}*","{VariablesList}
 VariablesDeclaration = "Var"{wsnl}+{VariablesList}
 
 Const = [0-9]+
@@ -22,11 +22,11 @@ wsnl = {ws} | {nl}
 Operand = {Ident} | {Const}
 BinaryOperator = "-" | "+" | "*" | "/" | "<" | ">" | "=="
 UnaryOperator = "-" | "not"
-Expression = {UnaryOperator} {wsnl}+ {Subexpression} | {Subexpression}
-Subexpression = "("{wsnl}* {Expression} {wsnl}*")" | {Operand} | {Subexpression}{wsnl}*{BinaryOperator}{wsnl}*{Subexpression}
-Assignment = {Ident}{wsnl}*"="{wsnl}*{Expression}
-Operator = {Assignment} | {ComplexOperator}
-ComplexOperator = "WHILE" {wsnl}+{Expression}{wsnl}+"DO"{wsnl}+{Operator}
+//Expression = {UnaryOperator} {wsnl}+ {Subexpression} | {Subexpression}
+//Subexpression = "("{wsnl}* {Expression} {wsnl}*")" | {Operand} | {Subexpression}{wsnl}*{BinaryOperator}{wsnl}*{Subexpression}
+Assignment = {Ident}{wsnl}*"="{wsnl}*{Operand}//{Expression}
+Operator = {Assignment}{wsnl}+ //| {ComplexOperator}
+//ComplexOperator = "WHILE" {wsnl}+{Expression}{wsnl}+"DO"{wsnl}+{Operator}
 Comment = "//"[^\n]*\n
 
 %%
